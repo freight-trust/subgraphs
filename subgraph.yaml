@@ -1,0 +1,47 @@
+specVersion: 0.0.1
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: Contract
+    network: mainnet
+    source:
+      address: "0x79C5a1Ae586322A07BfB60be36E1b31CE8C84A1e"
+      abi: Contract
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.2
+      language: wasm/assemblyscript
+      entities:
+        - UpdatedTokenInformation
+        - ClaimedTokens
+        - Upgrade
+        - UpgradeAgentSet
+        - MintingAgentChanged
+        - OwnershipTransferred
+        - Minted
+        - Approval
+        - Transfer
+      abis:
+        - name: Contract
+          file: ./abis/Contract.json
+      eventHandlers:
+        - event: UpdatedTokenInformation(string,string)
+          handler: handleUpdatedTokenInformation
+        - event: ClaimedTokens(indexed address,indexed address,uint256)
+          handler: handleClaimedTokens
+        - event: Upgrade(indexed address,indexed address,uint256)
+          handler: handleUpgrade
+        - event: UpgradeAgentSet(address)
+          handler: handleUpgradeAgentSet
+        - event: MintingAgentChanged(address,bool)
+          handler: handleMintingAgentChanged
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: Minted(address,uint256)
+          handler: handleMinted
+        - event: Approval(indexed address,indexed address,uint256)
+          handler: handleApproval
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
+      file: ./src/mapping.ts
